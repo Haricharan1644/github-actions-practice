@@ -1,0 +1,35 @@
+name: envvariables
+
+on:
+  workflow_dispatch:
+
+env:
+    WORKFLOW_VAR: I am a workflow scoped environment variable
+
+jobs:
+    job-1:
+        runs-on: ubuntu-latest
+        env:
+            JOB_VAR: I am a job scoped environment variable
+        steps:
+            - name: Inspect scopes job1 step1
+              env:
+                STEP_VAR: I am a step scoped environment variable
+              run: |
+                echo "Workflow scoped environment variable: $WORKFLOW_VAR"
+                echo "Job scoped environment variable: $JOB_VAR"
+                echo "Step scoped environment variable: $STEP_VAR"
+            - name : Inspect scopes job1 step2
+              run: |
+                echo "Workflow scoped environment variable: $WORKFLOW_VAR"
+                echo "Job scoped environment variable: $JOB_VAR"
+                echo "Step scoped environment variable: ${STEP_VAR:-<UNSET>}"
+
+    job-2:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Inspect scopes job2 step1
+              run: |
+                echo "Workflow scoped environment variable: $WORKFLOW_VAR"
+                echo "Job scoped environment variable: ${JOB_VAR:-<UNSET>}"
+                echo "Step scoped environment variable: ${STEP_VAR:-<UNSET>}"
