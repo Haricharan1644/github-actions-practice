@@ -1,0 +1,24 @@
+name: Hello World
+on: 
+    workflow_dispatch:
+
+jobs:
+    say-hello-inline-bash:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Say Hello ubuntu
+              run: echo "Hello World"
+    
+    say-hello-from-python:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Say Hello python 
+              run: print('Hello World python')
+              shell: python
+   
+    say-hello-from-javascript:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/hello-world-javascript-action@v1
+              with:
+                who-to-greet: 'World'
