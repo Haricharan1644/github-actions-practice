@@ -1,4 +1,4 @@
-name: Hello World
+name: different shells
 on: 
     workflow_dispatch:
 
