@@ -1,0 +1,31 @@
+name : passingvariables 
+
+on:
+    workflow_dispatch:
+
+jobs:
+    Producer:
+        runs-on: ubuntu-latest
+        steps:
+            - name : Generate variables 
+              id: generate
+              run: |
+                echo "VAR1=Hello" >> $GITHUB_ENV
+                echo "VAR2=World" >> $GITHUB_ENV
+                echo "VAR3=from" >> $GITHUB_ENV
+                echo "VAR4=GitHub Actions" >> $GITHUB_ENV
+                echo "VAR1=Hello from the githuboutput" >> $GITHUB_OUTPUT
+            - name : inspect values inside the producer job
+              run: |
+                echo "$VAR1 $VAR2 $VAR3 $VAR4"
+                echo "${{ steps.generate.outputs.VAR1 }}"
+        outputs:
+            genvar: ${{ steps.generate.outputs.VAR1 }}
+    Consumer:
+        needs: Producer
+        runs-on: ubuntu-latest
+        steps:
+            - name: Use generated producer output
+              run: |
+                echo "Producer output is : ${{ needs.Producer.outputs.genvar }}"
+
