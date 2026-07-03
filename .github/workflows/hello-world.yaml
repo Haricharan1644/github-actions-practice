@@ -1,6 +1,8 @@
 name: Hello World
 on: 
-    workflow_dispatch:
+    push:
+        branches:
+          - master
 
 jobs:
     say-hello-inline-bash:
