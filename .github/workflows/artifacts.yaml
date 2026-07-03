@@ -1,0 +1,30 @@
+name : Artifacts
+on:
+  workflow_dispatch:
+
+jobs:
+    artifact-producer:
+        name: Artifact Producer
+        runs-on: ubuntu-latest
+        steps:
+            - name: Create artifact
+              run: |
+                echo "Hello World" > artifact.txt
+                echo "Generated on $(date)" >> artifact.txt
+            - name: Upload artifact
+              uses: actions/upload-artifact@v3
+              with:
+                name: my-artifact
+                path: artifact.txt
+
+    artifact-consumer:
+        name: Artifact Consumer
+        runs-on: ubuntu-latest
+        needs : artifact-producer
+        steps:
+            - name : Download artifact
+              uses: actions/download-artifact@v3
+              with:
+                name: my-artifact
+            - name: Display artifact content
+              run: cat artifact.txt
